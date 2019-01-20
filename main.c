@@ -6,13 +6,13 @@
 /*   By: rkulahin <rkulahin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 13:23:19 by rkulahin          #+#    #+#             */
-/*   Updated: 2019/01/20 15:58:24 by rkulahin         ###   ########.fr       */
+/*   Updated: 2019/01/20 16:00:28 by rkulahin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-void	make_filler(t_filler *filler)
+void	malloc_filler(t_filler *filler)
 {
 	filler = malloc(sizeof(t_filler));
 	filler->player = 0;
@@ -28,5 +28,5 @@ int		main(void)
     char		*line;
 	t_filler	*filler;
 
-	
+	malloc_filler(filler);
 }
