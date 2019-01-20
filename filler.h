@@ -6,7 +6,7 @@
 /*   By: rkulahin <rkulahin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 13:37:13 by rkulahin          #+#    #+#             */
-/*   Updated: 2019/01/20 13:52:30 by rkulahin         ###   ########.fr       */
+/*   Updated: 2019/01/20 15:57:28 by rkulahin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ typedef struct			s_token
 
 typedef struct			s_filler
 {
-	t_token				board;
-	t_token				token;
+	t_token				*board;
+	t_token				*token;
 	int					player;
 	int					coordX;
 	int					coordY;
