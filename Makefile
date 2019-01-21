@@ -6,12 +6,13 @@
 #    By: rkulahin <rkulahin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/13 17:52:39 by rkulahin          #+#    #+#              #
-#    Updated: 2019/01/21 15:15:43 by rkulahin         ###   ########.fr        #
+#    Updated: 2019/01/21 22:50:27 by rkulahin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = bot.filler
-SRC = 	srcs/main.c
+SRC = 	srcs/main.c \
+		srcs/read_data.c
 LIB = libftprintf.a
 INCL = -I includes/
 FLAGS =  -g

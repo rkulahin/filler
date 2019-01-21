@@ -6,7 +6,7 @@
 /*   By: rkulahin <rkulahin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 13:37:13 by rkulahin          #+#    #+#             */
-/*   Updated: 2019/01/21 16:13:55 by rkulahin         ###   ########.fr       */
+/*   Updated: 2019/01/21 23:29:16 by rkulahin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,28 @@ int						g_fd;
 typedef struct			s_token
 {
 	char				**map;
-	int					sizex;
-	int					sizey;
+	int					x;
+	int					y;
 }						t_token;
 
 typedef struct			s_filler
 {
 	t_token				*board;
 	t_token				*token;
-	int					player;
-	int					coordx;
-	int					coordy;
+	int					id;
+	int					unid;
+	int					x;
+	int					y;
 	int					minsum;
 }						t_filler;
+
+void					read_map(t_filler *filler, int x);
+void					read_board_size(t_filler *filler);
+void					read_token_size(t_filler *filler);
+void					filler_algo(t_filler *filler);
+void					malloc_filler(t_filler *filler);
+void					find_token_position(t_filler *filler);
+int						check_position(t_filler *filler, int y, int x);
+
 
 #endif
