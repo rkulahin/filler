@@ -6,7 +6,7 @@
 /*   By: rkulahin <rkulahin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 21:26:47 by rkulahin          #+#    #+#             */
-/*   Updated: 2019/01/21 21:27:06 by rkulahin         ###   ########.fr       */
+/*   Updated: 2019/01/22 10:43:22 by rkulahin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,23 @@ void	read_map(t_filler *filler, int x)
 	if (x == 0)
 	{
 		get_next_line(g_fd, &line);
+		free(line);
+
 		filler->board->map = (char**)malloc(sizeof(char*) * filler->board->y);
-		while(++i < filler->board->y)
+		while (++i < filler->board->y)
 		{
 			get_next_line(g_fd, &line);
-			filler->board->map[i] = ft_strchr(line, ' ') + 1;
-			ft_printf("%s\n", filler->board->map[i]);
+			filler->board->map[i] = ft_strdup(ft_strchr(line, ' ') + 1);
+			free(line);
 		}
 		return ;
 	}
 	filler->token->map = (char**)malloc(sizeof(char*) * filler->token->y);
-	while(++i < filler->token->y)
+	while (++i < filler->token->y)
 	{
 		get_next_line(g_fd, &line);
-		filler->token->map[i] = line;
-		ft_printf("%s\n", filler->token->map[i]);
+		filler->token->map[i] = ft_strdup(line);
+		free(line);
 	}
 }
 
@@ -46,23 +48,25 @@ void	read_board_size(t_filler *filler)
 	if (get_next_line(g_fd, &line))
 	{
 		filler->board->y = ft_atoi(ft_strchr(line, ' '));
-		line = ft_strchr(line, ' ') + 1;
-		filler->board->x = ft_atoi(ft_strchr(line, ' '));
+		filler->board->x = ft_atoi(ft_strrchr(line, ' '));
+		free(line);
+		if (filler->board->y > filler->board->x)
+			filler->maxdis = filler->board->y - 1;
+		else
+			filler->maxdis = filler->board->x - 1;
 	}
-	ft_printf("%c %i %i\n", filler->id, filler->board->x, filler->board->y);
 	read_map(filler, 0);
 }
 
 void	read_token_size(t_filler *filler)
 {
-		char	*line;
+	char	*line;
 
 	if (get_next_line(g_fd, &line))
 	{
 		filler->token->y = ft_atoi(ft_strchr(line, ' '));
-		line = ft_strchr(line, ' ') + 1;
-		filler->token->x = ft_atoi(ft_strchr(line, ' '));
+		filler->token->x = ft_atoi(ft_strrchr(line, ' '));
+		free(line);
 	}
-	ft_printf("%c %i %i\n", filler->id, filler->token->x, filler->token->y);
 	read_map(filler, 1);
 }

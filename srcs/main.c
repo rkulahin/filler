@@ -6,48 +6,16 @@
 /*   By: rkulahin <rkulahin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 13:23:19 by rkulahin          #+#    #+#             */
-/*   Updated: 2019/01/21 23:32:07 by rkulahin         ###   ########.fr       */
+/*   Updated: 2019/01/22 14:33:48 by rkulahin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-int		check_position(t_filler *filler, int y, int x)
+void	upcase_map(t_filler *filler)
 {
 	int		i;
 	int		j;
-	int		k;
-
-	i = 0;
-	k = 0;
-	if (filler->board->map[x][y] == filler->id ||
-		filler->board->map[x][y] == filler->id - ' ')
-	{
-		while (i < filler->token->y)
-		{
-			j = 0;
-			while (j < filler->token->x)
-			{
-				if ((filler->board->map[x][y] == filler->id ||
-		filler->board->map[x][y] == filler->id - ' ') &&
-		filler->token->map[j][i] == '*');
-					k++;
-				if (filler->board->map[x][y] == filler->unid ||
-		filler->board->map[x][y] != '.' ||
-		filler->board->map[x][y] == filler->unid - ' ' || k > 1)
-					//govno
-				j++;
-			}
-			i++;
-		}
-	}
-}
-
-void	find_token_position(t_filler *filler)
-{
-	int		i;
-	int		j;
-	int		minsum;
 
 	i = 0;
 	while (i < filler->board->y)
@@ -55,13 +23,50 @@ void	find_token_position(t_filler *filler)
 		j = 0;
 		while (j < filler->board->x)
 		{
-			minsum = check_position(filler, i, j);
-			if ((minsum < filler->minsum || filler->minsum == 0) && minsum != 0)
-			{
-				filler->x = j;
-				filler->y = i;
-				filler->minsum = minsum;
-			}
+			filler->board->map[i][j] = ft_toupper(filler->board->map[i][j]);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	malloc_dis_map(t_filler *filler)
+{
+	int i;
+	int j;
+
+	i = 0;
+	filler->dis = (int**)malloc(sizeof(int *) * filler->board->y);
+	while (i < filler->board->y)
+	{
+		j = 0;
+		filler->dis[i] = (int*)malloc(sizeof(int) * filler->board->x + 1);
+		while (j < filler->board->x)
+		{
+			if (filler->board->map[i][j] == filler->unid)
+				filler->dis[i][j] = -1;
+			else if (filler->board->map[i][j] == filler->id)
+				filler->dis[i][j] = -2;
+			else
+				filler->dis[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+}
+
+void	find_distance_map(t_filler *filler)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < filler->board->y)
+	{
+		j = 0;
+		while (j < filler->board->x)
+		{
+			if (filler->board->map[i][j] == filler->unid)
 			j++;
 		}
 		i++;
@@ -81,8 +86,10 @@ void	malloc_filler(t_filler *filler)
 void	filler_algo(t_filler *filler)
 {
 	read_board_size(filler);
+	upcase_map(filler);
 	read_token_size(filler);
-	find_token_position(filler);
+	malloc_dis_map(filler);
+	find_distance_map(filler);
 }
 
 int		main(void)
@@ -96,6 +103,8 @@ int		main(void)
 	if (get_next_line(g_fd, &line) && !ft_strncmp("$$$ exec p", line, 9))
 	{
 		filler->id = (line[10] == '1' ? 'O' : 'X');
+		filler->unid = (line[10] == '1' ? 'X' : 'O');
+		free(line);
 		filler_algo(filler);
 	}
 }
