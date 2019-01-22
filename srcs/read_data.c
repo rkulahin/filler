@@ -6,7 +6,7 @@
 /*   By: rkulahin <rkulahin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 21:26:47 by rkulahin          #+#    #+#             */
-/*   Updated: 2019/01/22 10:43:22 by rkulahin         ###   ########.fr       */
+/*   Updated: 2019/01/22 17:38:33 by rkulahin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,6 @@ void	read_board_size(t_filler *filler)
 		filler->board->y = ft_atoi(ft_strchr(line, ' '));
 		filler->board->x = ft_atoi(ft_strrchr(line, ' '));
 		free(line);
-		if (filler->board->y > filler->board->x)
-			filler->maxdis = filler->board->y - 1;
-		else
-			filler->maxdis = filler->board->x - 1;
 	}
 	read_map(filler, 0);
 }

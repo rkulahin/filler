@@ -6,7 +6,7 @@
 /*   By: rkulahin <rkulahin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 13:23:19 by rkulahin          #+#    #+#             */
-/*   Updated: 2019/01/22 14:33:48 by rkulahin         ###   ########.fr       */
+/*   Updated: 2019/01/22 19:15:58 by rkulahin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,72 @@ void	malloc_dis_map(t_filler *filler)
 	}
 }
 
-void	find_distance_map(t_filler *filler)
+int		find_zero(t_filler *filler)
 {
-	int		i;
-	int		j;
+	int	i;
+	int j;
 
 	i = 0;
+	printmap(filler);
 	while (i < filler->board->y)
 	{
 		j = 0;
 		while (j < filler->board->x)
 		{
-			if (filler->board->map[i][j] == filler->unid)
+			if (filler->dis[i][j] == 0)
+				return (1);
 			j++;
 		}
 		i++;
+	}
+	return (0);
+}
+
+void	add_dist(t_filler *f, int y, int x, int k)
+{
+	if (x - 1 >= 0 && y - 1 >= 0 && f->dis[y - 1][x - 1] == 0)
+		f->dis[y - 1][x - 1] = k;
+	if (x - 1 >= 0 && f->dis[y][x - 1] == 0)
+		f->dis[y][x - 1] = k;
+	if (x - 1 >= 0 && y + 1 < f->board->y && f->dis[y + 1][x - 1] == 0)
+		f->dis[y + 1][x - 1] = k;
+	if (x - 1 >= 0 && y - 1 >= 0 && f->dis[y - 1][x] == 0)
+		f->dis[y - 1][x] = k;
+	if (x - 1 >= 0 && y + 1 < f->board->y && f->dis[y + 1][x] == 0)
+		f->dis[y + 1][x] = k;
+	if (x + 1 < f->board->x && y - 1 >= 0 && f->dis[y - 1][x + 1] == 0)
+		f->dis[y - 1][x + 1] = k;
+	if (x + 1 < f->board->x && f->dis[y][x + 1] == 0)
+		f->dis[y][x + 1] = k;
+	if (x + 1 < f->board->x && y + 1 < f->board->y &&
+	f->dis[y + 1][x + 1] == 0)
+		f->dis[y + 1][x + 1] = k;
+}
+
+void	find_distance_map(t_filler *filler)
+{
+	int		i;
+	int		j;
+	int		k;
+
+	k = 1;
+	while (find_zero(filler) == 1)
+	{
+		i = 0;
+		while (i < filler->board->y)
+		{
+			j = 0;
+			while (j < filler->board->x)
+			{
+				if (filler->dis[i][j] == -1)
+					add_dist(filler, i, j, k);
+				else if (filler->dis[i][j] == k - 1 && k != 1)
+					add_dist(filler, i, j, k);
+				j++;
+			}
+			i++;
+		}
+		k++;
 	}
 }
 
@@ -83,6 +134,26 @@ void	malloc_filler(t_filler *filler)
 	filler->board = (t_token*)malloc(sizeof(t_token));
 }
 
+void	printmap(t_filler *f)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < f->board->y)
+	{
+		j = 0;
+		while (j < f->board->x)
+		{
+			ft_printf("%i", f->dis[i][j]);
+			j++;
+		}
+		ft_printf("\n");
+		i++;
+	}
+	ft_printf("\n");
+}
+
 void	filler_algo(t_filler *filler)
 {
 	read_board_size(filler);
@@ -90,6 +161,7 @@ void	filler_algo(t_filler *filler)
 	read_token_size(filler);
 	malloc_dis_map(filler);
 	find_distance_map(filler);
+	printmap(filler);
 }
 
 int		main(void)
