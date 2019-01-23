@@ -6,7 +6,7 @@
 /*   By: rkulahin <rkulahin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 13:37:13 by rkulahin          #+#    #+#             */
-/*   Updated: 2019/01/22 17:48:57 by rkulahin         ###   ########.fr       */
+/*   Updated: 2019/01/23 12:32:59 by rkulahin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ typedef struct			s_filler
 	int					x;
 	int					y;
 	int					minsum;
+	int					maxdis;
 }						t_filler;
 
 void					read_map(t_filler *filler, int x);
-void					read_board_size(t_filler *filler);
+int						read_board_size(t_filler *filler);
 void					read_token_size(t_filler *filler);
 void					filler_algo(t_filler *filler);
 void					malloc_filler(t_filler *filler);

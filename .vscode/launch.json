@@ -8,10 +8,10 @@
 			"name": "(lldb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "enter program name, for example ${workspaceFolder}/a.out",
+			"program": "/Users/rkulahin/Desktop/filler/rkulahin.filler",
 			"args": [],
 			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}",
+			"cwd": "/Users/rkulahin/Desktop/filler",
 			"environment": [],
 			"externalConsole": true,
 			"MIMode": "lldb"

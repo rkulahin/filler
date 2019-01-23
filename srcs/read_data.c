@@ -6,7 +6,7 @@
 /*   By: rkulahin <rkulahin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 21:26:47 by rkulahin          #+#    #+#             */
-/*   Updated: 2019/01/22 17:38:33 by rkulahin         ###   ########.fr       */
+/*   Updated: 2019/01/23 17:18:17 by rkulahin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,24 @@ void	read_map(t_filler *filler, int x)
 	}
 }
 
-void	read_board_size(t_filler *filler)
+int		read_board_size(t_filler *filler)
 {
 	char	*line;
+	int		k;
 
-	if (get_next_line(g_fd, &line))
+	k = get_next_line(g_fd, &line);
+	if (k == 1)
 	{
 		filler->board->y = ft_atoi(ft_strchr(line, ' '));
 		filler->board->x = ft_atoi(ft_strrchr(line, ' '));
+		if (filler->board->y > filler->board->x)
+			filler->maxdis = filler->board->y;
+		else
+			filler->maxdis = filler->board->x;
 		free(line);
+		read_map(filler, 0);
 	}
-	read_map(filler, 0);
+	return (k);
 }
 
 void	read_token_size(t_filler *filler)
